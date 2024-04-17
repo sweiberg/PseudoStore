@@ -1,9 +1,11 @@
 import React from "react";
+import Navbar from "../components/navbar"; 
  
 const Cart = () => {
     return (
         <div>
-            <h1>Cart</h1>
+            <Navbar />
+            <h1 className="text-3xl font-bold underline">Cart</h1>
         </div>
     );
 };
