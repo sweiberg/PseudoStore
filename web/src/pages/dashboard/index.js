@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import Chart from 'chart.js/auto';
 import { CategoryScale } from "chart.js";
 import Side from './side/side.js';
@@ -54,14 +53,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="px-4 md:px-10 mx-auto w-full -m-24">
-                        {trends.find(t => t.name === currentTrend).component}
-                        <div className="flex flex-wrap mt-4">
-                            <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-                                Test
-                            </div>
-                        </div>
-                    </div>
+                    {trends.find(t => t.name === currentTrend).component}
                 </div>
             </div>
         </>

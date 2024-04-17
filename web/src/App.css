@@ -7,6 +7,8 @@ body {
   color: rgba(51,65,85,var(--tw-text-opacity));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --tw-bg-opacity: 1;
+  background-color: rgba(241,245,249,var(--tw-bg-opacity));
 }
 
 .App {
@@ -68,9 +70,15 @@ body {
   color: rgba(148,163,184,var(--tw-text-opacity));
 }
 
+
 .bg-blueGray-100 {
   --tw-bg-opacity: 1;
   background-color: rgba(241,245,249,var(--tw-bg-opacity));
+}
+
+.text-blueGray-100 {
+  --tw-text-opacity: 1;
+  color: rgba(241,245,249,var(--tw-text-opacity));
 }
 
 .text-lightBlue-400 {
