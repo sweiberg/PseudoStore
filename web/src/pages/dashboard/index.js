@@ -11,6 +11,7 @@ import Info1 from "./info/info1.js"
 import Info2 from "./info/info2.js"
 import Info3 from "./info/info3.js"
 import Info4 from "./info/info4.js"
+import Footer from '../../components/footer'
 
 Chart.register(CategoryScale);
 
@@ -53,7 +54,10 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    {trends.find(t => t.name === currentTrend).component}
+                    <div className="px-4 md:px-10 mx-auto w-full -m-24">
+                        {trends.find(t => t.name === currentTrend).component}
+                        <Footer />
+                    </div>
                 </div>
             </div>
         </>

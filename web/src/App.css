@@ -76,6 +76,11 @@
   color: rgba(241,245,249,var(--tw-text-opacity));
 }
 
+.text-blueGray-200 {
+  --tw-text-opacity: 1;
+  color: rgba(226,232,240,var(--tw-text-opacity));
+}
+
 .text-lightBlue-400 {
   --tw-text-opacity:1;
   color:rgba(56,189,248,var(--tw-text-opacity));
