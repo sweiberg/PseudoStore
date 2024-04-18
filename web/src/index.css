@@ -5,7 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+  --tw-text-opacity: 1;
+  color: rgba(51,65,85,var(--tw-text-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgba(241,245,249,var(--tw-bg-opacity));
+  }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

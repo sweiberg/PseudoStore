@@ -15,14 +15,14 @@ import Info4 from "./info/info4.js"
 Chart.register(CategoryScale);
 
 const Dashboard = () => {
-    const [currentTrend, setCurrentTrend] = useState('Trend1');
+    const [currentTrend, setCurrentTrend] = useState('Trend 1');
 
     const trends = [
-        { name: 'Trend1', component: <Trend1 /> },
-        { name: 'Trend2', component: <Trend2 /> },
-        { name: 'Trend3', component: <Trend3 /> },
-        { name: 'Trend4', component: <Trend4 /> },
-        { name: 'Trend5', component: <Trend5 /> }
+        { name: 'Trend 1', component: <Trend1 /> },
+        { name: 'Trend 2', component: <Trend2 /> },
+        { name: 'Trend 3', component: <Trend3 /> },
+        { name: 'Trend 4', component: <Trend4 /> },
+        { name: 'Trend 5', component: <Trend5 /> }
     ];
 
     return (

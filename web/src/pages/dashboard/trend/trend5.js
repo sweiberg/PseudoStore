@@ -69,7 +69,7 @@ const Trend5 = () => {
                 <h6 className="uppercase text-blueGray-100 mb-1 text-xs font-semibold">Graph</h6>
                 <h2 className="text-white text-xl font-semibold">{name}</h2>
             </div>
-            <div className="p-4 flex-auto"><div className="relative h-350-px"><Line data={data} options={options} /></div></div>
+            <div className="p-4 flex-auto"><div className="relative h-650-px"><Line data={data} options={options} /></div></div>
           </div>
         </div>
         <div className="w-full xl:w-4/12 px-4">
@@ -82,7 +82,7 @@ const Trend5 = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="p-4 flex-auto"><div className="relative h-350-px">Test</div></div>
+                  <div className="p-4 flex-auto"><div className="relative h-650-px">Test</div></div>
               </div>
           </div>
       </div>

@@ -2,15 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  --tw-text-opacity: 1;
-  color: rgba(51,65,85,var(--tw-text-opacity));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  --tw-bg-opacity: 1;
-  background-color: rgba(241,245,249,var(--tw-bg-opacity));
-}
-
 .App {
   text-align: center;
 }
@@ -41,8 +32,8 @@ body {
   color: #61dafb;
 }
 
-.h-350-px {
-  height: 350px;
+.h-650-px {
+  height: 650px;
 }
 
 .bg-blueGray-800 {
@@ -70,6 +61,10 @@ body {
   color: rgba(148,163,184,var(--tw-text-opacity));
 }
 
+.bg-blueGray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(226,232,240,var(--tw-bg-opacity));
+}
 
 .bg-blueGray-100 {
   --tw-bg-opacity: 1;
@@ -100,7 +95,9 @@ body {
   box-shadow: var(--tw-ring-offset-shadow,0 0 transparent),var(--tw-ring-shadow,0 0 transparent),var(--tw-shadow);
 }
 
-
+.bg-full {
+  background-size: 100%;
+}
 
 @keyframes App-logo-spin {
   from {
