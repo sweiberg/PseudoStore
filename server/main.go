@@ -3,7 +3,9 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"log"
+	"pseudo-store/controller"
 	"pseudo-store/db"
+	"pseudo-store/middleware"
 	"pseudo-store/model"
 
 	"github.com/joho/godotenv"
@@ -12,6 +14,7 @@ import (
 func main() {
 	loadEnv()
 	loadDB()
+	loadRoutes()
 }
 
 func loadDB() {
@@ -30,9 +33,6 @@ func loadDB() {
 			db.Oracle.AutoMigrate(table)
 		}
 	}
-
-	model.PrintAll()
-	model.PrintAll2()
 }
 
 func loadEnv() {
@@ -47,4 +47,8 @@ func loadRoutes() {
 	router := gin.Default()
 	router.Use(middleware.CORS())
 
+	publicAPI := router.Group("/api")
+	publicAPI.GET("/product/:id", controller.ViewProduct)
+
+	router.Run(":4300")
 }

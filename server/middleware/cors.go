@@ -1,20 +1,18 @@
 package middleware
 
 import (
-	"net/http"
-	"pseudo-store/helper"
-
 	"github.com/gin-gonic/gin"
 )
 
-func VerifyJWT() gin.HandlerFunc {
+func CORS() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		err := helper.VerifyHeaderJWT(context)
+		context.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		context.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		context.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		context.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
 
-		if err != nil {
-			context.JSON(http.StatusUnauthorized, gin.H{"error": "User authorization failed"})
-			context.Abort()
-
+		if context.Request.Method == "OPTIONS" {
+			context.AbortWithStatus(204)
 			return
 		}
 
