@@ -2,29 +2,28 @@ package db
 
 import (
 	"fmt"
-	"os"
-
-	"github.com/cengsin/oracle"
+	oracle "github.com/godoes/gorm-oracle"
 	"gorm.io/gorm"
+	"os"
 )
 
-var Database *gorm.DB
+var Oracle *gorm.DB
 
 func Connect() {
 	var err error
 
-	host := os.Getenv("DB_HOST")
-	username := os.Getenv("DB_USER")
+	address := os.Getenv("DB_ADDRESS")
+	username := os.Getenv("DB_USERNAME")
 	password := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
+	serviceName := os.Getenv("DB_SERVICENAME")
 	port := os.Getenv("DB_PORT")
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=America/New_York", host, username, password, dbName, port)
-	Database, err = gorm.Open(oracle.Open(dsn), &gorm.Config{})
+	dsn := fmt.Sprintf("oracle://%s:%s@%s:%s/%s", username, password, address, port, serviceName)
+	Oracle, err = gorm.Open(oracle.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic(err)
 	} else {
-		fmt.Println("The Pseudo Store database has been successfully connected.")
+		fmt.Println("Connected to the Oracle database successfully.")
 	}
 }
