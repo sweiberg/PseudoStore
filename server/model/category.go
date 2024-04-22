@@ -28,6 +28,18 @@ func GetCategoryByID(id uint) (Category, error) {
 	return category, nil
 }
 
+func GetCategorySubcategories(id uint) ([]Category, error) {
+	var category []Category
+
+	err := db.Oracle.Preload("Subcategories").Where("id=?", id).Find(&category).Error
+
+	if err != nil {
+		return []Category{}, err
+	}
+
+	return category, nil
+}
+
 func GetCategoriesItems(limit int) ([]Category, error) {
 	var categories []Category
 

@@ -52,6 +52,7 @@ func loadRoutes() {
 	publicAPI.GET("/category/:id", controller.ViewCategory)
 	publicAPI.GET("/category/all/:limit", controller.ViewCategoriesItems)
 	publicAPI.GET("/category/all", controller.ViewCategories)
+	publicAPI.GET("/category/subs/:id", controller.ViewCategorySubcategories)
 
 	router.Run(":4300")
 }
