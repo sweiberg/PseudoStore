@@ -38,8 +38,7 @@ func GetCategoryPage(id uint, page uint) (Category, error) {
 		return Category{}, err
 	}
 
-	var offset = int(page-1) * 10
-
+	offset := int(page-1) * 10
 	err = db.Oracle.Model(&category).Offset(offset).Limit(10).Association("Products").Find(&products)
 
 	if err != nil {
@@ -49,18 +48,6 @@ func GetCategoryPage(id uint, page uint) (Category, error) {
 	category.Products = products
 
 	return category, nil
-}
-
-func GetCategoriesItems(limit int) ([]Category, error) {
-	var categories []Category
-
-	err := db.Oracle.Preload("Products").Find(&categories).Error
-
-	if err != nil {
-		return []Category{}, err
-	}
-
-	return categories, nil
 }
 
 func GetCategories() ([]Category, error) {
