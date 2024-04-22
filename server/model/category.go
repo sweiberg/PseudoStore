@@ -19,7 +19,7 @@ type Category struct {
 func GetCategoryByID(id uint) (Category, error) {
 	var category Category
 
-	err := db.Oracle.Preload("Products").Where("id=?", id).Find(&category).Error
+	err := db.Oracle.Preload("Subcategories").Where("id=?", id).Find(&category).Error
 
 	if err != nil {
 		return Category{}, err
@@ -28,14 +28,25 @@ func GetCategoryByID(id uint) (Category, error) {
 	return category, nil
 }
 
-func GetCategorySubcategories(id uint) (Category, error) {
+func GetCategoryPage(id uint, page uint) (Category, error) {
 	var category Category
+	var products []*Product
 
-	err := db.Oracle.Preload("Subcategories").Where("id=?", id).Find(&category).Error
+	err := db.Oracle.Where("id=?", id).Find(&category).Error
 
 	if err != nil {
 		return Category{}, err
 	}
+
+	var offset = int(page-1) * 10
+
+	err = db.Oracle.Model(&category).Offset(offset).Limit(10).Association("Products").Find(&products)
+
+	if err != nil {
+		return Category{}, err
+	}
+
+	category.Products = products
 
 	return category, nil
 }

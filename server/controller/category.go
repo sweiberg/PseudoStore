@@ -27,7 +27,7 @@ func ViewCategory(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"data": category})
 }
 
-func ViewCategorySubcategories(context *gin.Context) {
+func ViewCategoryPage(context *gin.Context) {
 	id, err := strconv.ParseUint(context.Param("id"), 10, 64)
 
 	if err != nil {
@@ -36,7 +36,15 @@ func ViewCategorySubcategories(context *gin.Context) {
 		return
 	}
 
-	category, err := model.GetCategorySubcategories(uint(id))
+	page, err := strconv.ParseUint(context.Param("page"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	category, err := model.GetCategoryPage(uint(id), uint(page))
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
