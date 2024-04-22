@@ -26,3 +26,23 @@ func ViewProduct(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"data": product})
 }
+
+func ViewPopularProducts(context *gin.Context) {
+	limit, err := strconv.ParseUint(context.Param("limit"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	products, err := model.GetPopularProducts(int(limit))
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"data": products})
+}

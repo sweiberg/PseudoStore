@@ -49,6 +49,7 @@ func loadRoutes() {
 
 	publicAPI := router.Group("/api")
 	publicAPI.GET("/product/:id", controller.ViewProduct)
+	publicAPI.GET("/product/popular/:limit", controller.ViewPopularProducts)
 
 	publicAPI.GET("/category/:id", controller.ViewCategory)
 	publicAPI.GET("/category/all", controller.ViewCategories)

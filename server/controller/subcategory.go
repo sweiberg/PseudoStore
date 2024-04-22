@@ -16,7 +16,7 @@ func ViewSubcategory(context *gin.Context) {
 		return
 	}
 
-	category, err := model.GetSubcategoryByID(uint(id))
+	subcategory, err := model.GetSubcategoryByID(uint(id))
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -24,7 +24,7 @@ func ViewSubcategory(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"data": category})
+	context.JSON(http.StatusOK, gin.H{"data": subcategory})
 }
 
 func ViewSubcategoryPage(context *gin.Context) {
@@ -44,7 +44,7 @@ func ViewSubcategoryPage(context *gin.Context) {
 		return
 	}
 
-	category, err := model.GetSubcategoryPage(uint(id), uint(page))
+	subcategory, err := model.GetSubcategoryPage(uint(id), uint(page))
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -52,11 +52,11 @@ func ViewSubcategoryPage(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"data": category})
+	context.JSON(http.StatusOK, gin.H{"data": subcategory})
 }
 
 func ViewSubcategories(context *gin.Context) {
-	categories, err := model.GetSubcategories()
+	subcategories, err := model.GetSubcategories()
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -64,5 +64,5 @@ func ViewSubcategories(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"data": categories})
+	context.JSON(http.StatusOK, gin.H{"data": subcategories})
 }
