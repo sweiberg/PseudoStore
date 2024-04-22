@@ -27,11 +27,13 @@ type Member struct {
 	Payments   []*Payment
 }
 
-func (member *Member) Create() (*Member, error) {
-	err := db.Oracle.Create(&member).Error
+func GetMemberByID(id uint) (Member, error) {
+	var member Member
+
+	err := db.Oracle.Where("id=?", id).Find(&member).Error
 
 	if err != nil {
-		return &Member{}, err
+		return Member{}, err
 	}
 
 	return member, nil

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"log"
 	"pseudo-store/db"
 	"pseudo-store/model"
@@ -40,4 +41,10 @@ func loadEnv() {
 	if err != nil {
 		log.Fatal("Error! The .env file could not be loaded.")
 	}
+}
+
+func loadRoutes() {
+	router := gin.Default()
+	router.Use(middleware.CORS())
+
 }
