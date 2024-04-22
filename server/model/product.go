@@ -44,9 +44,9 @@ func GetPopularProducts(limit int) ([]Product, error) {
 	var products []Product
 
 	err := db.Oracle.Table("products").
-		Select("products.id, products.Name, products.Price, SUM(orders.quantity) AS total_ordered").
-		Joins("JOIN orders ON orders.product_id = products.id").
-		Group("products.id, products.Name, products.Price").
+		Select("products.ID, products.Name, products.Price, products.Subcategory_ID, SUM(orders.quantity) AS total_ordered").
+		Joins("JOIN orders ON orders.product_ID = products.ID").
+		Group("products.ID, products.Name, products.Price, products.Subcategory_ID").
 		Order("total_ordered DESC").
 		Limit(limit).
 		Find(&products).Error
@@ -54,6 +54,6 @@ func GetPopularProducts(limit int) ([]Product, error) {
 	if err != nil {
 		return []Product{}, err
 	}
-	
+
 	return products, nil
 }
