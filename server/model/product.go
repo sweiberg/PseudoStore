@@ -54,22 +54,6 @@ func GetPopularProducts(limit int) ([]Product, error) {
 	if err != nil {
 		return []Product{}, err
 	}
-
-	/*query := `
-	        SELECT p.*
-	        FROM products p
-	        JOIN (
-	            SELECT product_id, SUM(quantity) AS total_quantity
-	            FROM orders
-	            GROUP BY product_id
-	            ORDER BY total_quantity DESC
-	            FETCH FIRST 2 ROWS ONLY
-	        ) o ON p.id = o.product_id
-	    `
-
-		if err := db.Oracle.Raw(query).Scan(&products).Error; err != nil {
-			return nil, err
-		}*/
-
+	
 	return products, nil
 }
