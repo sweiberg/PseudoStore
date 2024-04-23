@@ -44,15 +44,18 @@ func Register(context *gin.Context) {
 }
 
 func Login(context *gin.Context) {
-	var input model.Member
+	var login struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
 
-	if err := context.ShouldBindJSON(&input); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if err := context.BindJSON(&login); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
 
 		return
 	}
 
-	member, err := model.GetMemberByUsername(input.Username)
+	member, err := model.GetMemberByUsername(login.Username)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -60,7 +63,7 @@ func Login(context *gin.Context) {
 		return
 	}
 
-	err = member.AuthorizePassword(input.Password)
+	err = member.AuthorizePassword(login.Password)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -109,10 +112,6 @@ func GetProfile(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, gin.H{"data": member})
-}
-
-type ProfileData struct {
-	Items []string `json:"items"`
 }
 
 func EditProfile(context *gin.Context) {
