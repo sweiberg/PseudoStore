@@ -16,7 +16,6 @@ type Order struct {
 	ProductID   uint         `gorm:"not null" json:"product_id"`
 	PromotionID uint         `gorm:"null" json:"promotion_id"`
 
-	Member    *Member
 	Product   *Product
 	Promotion *Promotion
 	Payment   *Payment
