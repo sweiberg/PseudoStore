@@ -6,8 +6,8 @@ import (
 	"pseudo-store/trend"
 )
 
-func GetTrendOne(context *gin.Context) {
-	trendOne, err := trend.TrendOne()
+func TrendOne(context *gin.Context) {
+	trendOne, err := trend.GetTrendOne()
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
