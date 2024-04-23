@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
 	"pseudo-store/controller"
 	"pseudo-store/db"
 	"pseudo-store/middleware"
 	"pseudo-store/model"
+
+	"github.com/gin-gonic/gin"
 
 	"github.com/joho/godotenv"
 )

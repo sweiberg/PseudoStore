@@ -20,8 +20,8 @@ const CartTotals = () => {
     updateTotalsFromCookie();
   }, []);
 
-  const tax = total / 5;
-  const shipping = total > 0 ? 50 : 0; // Assuming shipping is free if no items
+  const tax = total / 11;
+  const shipping = total > 0 ? 5 : 0; // Assuming shipping is free if no items
 
   return (
     <div className='card bg-base-200'>
@@ -38,7 +38,7 @@ const CartTotals = () => {
         </p>
         {/* Tax */}
         <p className='flex justify-between text-xs border-b border-base-300 pb-2 text-accent-content'>
-          <span>Tax 20%</span>
+          <span>Tax 11%</span>
           <span className='font-medium'>${Math.round(tax)}</span>
         </p>
         {/* Order Total */}

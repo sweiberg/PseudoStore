@@ -14,14 +14,14 @@ import {
   Search,
   ThankYou,
   OrderHistory,
-  Test
+  Category
 } from "./pages";
 import Dashboard from "./pages/dashboard/index.jsx";
 import { landingLoader } from "./pages/Landing";
 import { singleProductLoader } from "./pages/SingleProduct";
 import { shopLoader } from "./pages/Shop";
 import { ToastContainer } from "react-toastify";
-import { fetchProductLoader } from "./pages/Test.jsx";
+import { categoryLoader } from "./pages/Category";
 
 const router = createBrowserRouter([
   {
@@ -93,9 +93,9 @@ const router = createBrowserRouter([
         element: <Dashboard />
       },
       {
-        path:"shop/test/:id",
-        element: <Test />,
-        loader: fetchProductLoader,
+        path:"shop/Category/:id",
+        element: <Category />,
+        loader: categoryLoader,
       }
     ],
   },
