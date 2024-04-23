@@ -9,7 +9,15 @@ type TrendOne struct {
 	TotalOrders int
 }
 
-func GetTrendOne() ([]TrendOne, error) {
+func GetTrendOne(
+	catName string,
+	subcatName string,
+	lowAge int,
+	highAge int,
+	gender string,
+	municipality string,
+	lowDate string,
+	highDate string) ([]TrendOne, error) {
 	var results []TrendOne
 
 	err := db.Oracle.Raw(`
@@ -27,17 +35,17 @@ func GetTrendOne() ([]TrendOne, error) {
 		INNER JOIN 
 			SUBCATEGORIES s ON p.SUBCATEGORY_ID = s.ID
 		WHERE
-			c.NAME = 'Apparel' AND
-			s.NAME = 'Topwear' AND
-			TRUNC(MONTHS_BETWEEN(SYSDATE, m.BIRTHDATE) / 12) BETWEEN 25 AND 34 AND
-			m.GENDER = 'M' AND
-			m.MUNICIPALITY = 'Sumatera Barat' AND
-			o.CREATED_AT BETWEEN TO_DATE('2017-01', 'YYYY-MM') AND TO_DATE('2018-01', 'YYYY-MM')
+			c.NAME = ? AND
+			s.NAME = ? AND
+			TRUNC(MONTHS_BETWEEN(SYSDATE, m.BIRTHDATE) / 12) BETWEEN ? AND ? AND
+			m.GENDER = ? AND
+			m.MUNICIPALITY = ? AND
+			o.CREATED_AT BETWEEN TO_DATE(?, 'YYYY-MM') AND TO_DATE(?, 'YYYY-MM')
 		GROUP BY
 			TO_CHAR(o.CREATED_AT, 'YYYY-MM')
 		ORDER BY
 			Order_Month
-	`).Scan(&results).Error
+	`, catName, subcatName, lowAge, highAge, gender, municipality, lowDate, highDate).Scan(&results).Error
 
 	if err != nil {
 		return nil, err
