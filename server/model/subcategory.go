@@ -33,7 +33,7 @@ func GetSubcategoryPage(id uint, page uint) (Subcategory, error) {
 	var subcategory Subcategory
 	var products []*Product
 
-	err := db.Oracle.Where("id=?", id).Find(&subcategory).Error
+	err := db.Oracle.Preload("Category").Where("id=?", id).Find(&subcategory).Error
 
 	if err != nil {
 		return Subcategory{}, err
@@ -54,7 +54,7 @@ func GetSubcategoryPage(id uint, page uint) (Subcategory, error) {
 func GetSubcategories() ([]Subcategory, error) {
 	var subcategories []Subcategory
 
-	err := db.Oracle.Order("name ASC").Find(&subcategories).Error
+	err := db.Oracle.Preload("Category").Order("name ASC").Find(&subcategories).Error
 
 	if err != nil {
 		return []Subcategory{}, err
