@@ -9,11 +9,6 @@ import (
 	"pseudo-store/model"
 )
 
-type CheckoutData struct {
-	ProductID uint `json:"id"`
-	Quantity  uint `json:"quantity"`
-}
-
 func Checkout(context *gin.Context) {
 	member, err := helper.GetThisMember(context)
 
@@ -23,11 +18,14 @@ func Checkout(context *gin.Context) {
 		return
 	}
 
-	var data []CheckoutData
+	type checkout struct {
+		ProductID uint `json:"id"`
+		Quantity  uint `json:"quantity"`
+	}
 
-	err = context.BindJSON(&data)
+	var checkoutProducts []checkout
 
-	if err != nil {
+	if err := context.BindJSON(&checkoutProducts); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
 		return
@@ -38,8 +36,8 @@ func Checkout(context *gin.Context) {
 	var product model.Product
 	var price float64 = 5.0
 
-	for i := 0; i < len(data); i++ {
-		product, err = model.GetProductByID(data[i].ProductID)
+	for i := 0; i < len(checkoutProducts); i++ {
+		product, err = model.GetProductByID(checkoutProducts[i].ProductID)
 
 		if err != nil {
 			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -47,7 +45,7 @@ func Checkout(context *gin.Context) {
 			return
 		}
 
-		if product.Quantity < data[i].Quantity {
+		if product.Quantity < checkoutProducts[i].Quantity {
 			context.JSON(http.StatusBadRequest, gin.H{"error": "The requested item does not have enough inventory available."})
 
 			return
@@ -57,7 +55,7 @@ func Checkout(context *gin.Context) {
 		order.MemberID = member.ID
 		order.UnitPrice = product.Price
 		order.LineNumber = uint(i + 1)
-		order.Quantity = data[i].Quantity
+		order.Quantity = checkoutProducts[i].Quantity
 		order.ProductID = product.ID
 
 		orders = append(orders, order)

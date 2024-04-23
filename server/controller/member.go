@@ -8,28 +8,39 @@ import (
 	"pseudo-store/db"
 	"pseudo-store/helper"
 	"pseudo-store/model"
+	"time"
 )
 
 func Register(context *gin.Context) {
-	var input model.Member
+	var register struct {
+		FirstName string `json:"first_name"`
+		LastName  string `json:"last_name"`
+		Username  string `json:"username"`
+		Email     string `json:"email"`
+		Password  string `json:"password"`
 
-	if err := context.ShouldBindJSON(&input); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		Gender       string    `json:"gender"`
+		Municipality string    `json:"municipality"`
+		Country      string    `json:"country"`
+		Birthdate    time.Time `json:"birthdate"`
+	}
+
+	if err := context.BindJSON(&register); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
 
 		return
 	}
 
 	member := model.Member{
-		FirstName: input.FirstName,
-		LastName:  input.LastName,
-		Username:  input.Username,
-		Email:     input.Email,
-		Password:  input.Password,
-
-		Gender:       input.Gender,
-		Municipality: input.Municipality,
-		Country:      input.Country,
-		Birthdate:    input.Birthdate,
+		FirstName:    register.FirstName,
+		LastName:     register.LastName,
+		Username:     register.Username,
+		Email:        register.Email,
+		Password:     register.Password,
+		Gender:       register.Gender,
+		Municipality: register.Municipality,
+		Country:      register.Country,
+		Birthdate:    register.Birthdate,
 	}
 
 	newMember, err := member.Create()
