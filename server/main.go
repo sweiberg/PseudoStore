@@ -70,8 +70,10 @@ func loadRoutes() {
 	protectedAPI := router.Group("/api")
 	protectedAPI.Use(middleware.VerifyJWT())
 
-	protectedAPI.GET("/profile", controller.GetProfile)
+	protectedAPI.GET("/profile", controller.ViewProfile)
 	protectedAPI.POST("/profile/edit", controller.EditProfile)
+
+	protectedAPI.GET("/dashboard/stats", controller.DashboardStats)
 
 	router.Run(":4300")
 }

@@ -105,7 +105,7 @@ func Authorize(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"member_id": member.ID, "username": member.Username})
 }
 
-func GetProfile(context *gin.Context) {
+func ViewProfile(context *gin.Context) {
 	id, err := helper.GetThisMemberID(context)
 
 	if err != nil {
