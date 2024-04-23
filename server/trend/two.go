@@ -1,6 +1,6 @@
 package trend
 
-type Result struct {
+type TrendTwo struct {
 	OrderMonth  string
 	TotalOrders int
 }

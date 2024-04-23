@@ -9,8 +9,8 @@ type TrendOne struct {
 	TotalOrders int
 }
 
-func GetTrendOne() ([]Result, error) {
-	var results []Result
+func GetTrendOne() ([]TrendOne, error) {
+	var results []TrendOne
 
 	err := db.Oracle.Raw(`
 		SELECT
