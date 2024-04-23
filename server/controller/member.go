@@ -132,9 +132,9 @@ func EditProfile(context *gin.Context) {
 		return
 	}
 
-	if password, err := requestData["password"]; err {
+	if password, err := requestData["password"].(string); err {
 		if password != "" {
-			pwHash, err := bcrypt.GenerateFromPassword([]byte(password.(string)), bcrypt.DefaultCost)
+			pwHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 			if err != nil {
 				context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -142,7 +142,7 @@ func EditProfile(context *gin.Context) {
 				return
 			}
 
-			requestData["password"] = pwHash
+			requestData["password"] = string(pwHash)
 		}
 	}
 
