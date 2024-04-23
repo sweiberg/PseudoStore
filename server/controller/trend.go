@@ -34,3 +34,27 @@ func TrendOne(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"data": trendOne})
 }
+
+func TrendTwo(context *gin.Context) {
+	var t struct {
+		Municipality string `json:"municipality"`
+		LowDate      string `json:"low_date"`
+		HighDate     string `json:"high_date"`
+	}
+
+	if err := context.BindJSON(&t); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
+
+		return
+	}
+
+	trendTwo, err := trend.GetTrendTwo(t.Municipality, t.LowDate, t.HighDate)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"data": trendTwo})
+}
