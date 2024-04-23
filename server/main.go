@@ -70,6 +70,7 @@ func loadRoutes() {
 	protectedAPI.Use(middleware.VerifyJWT())
 
 	protectedAPI.GET("/profile", controller.GetProfile)
+	protectedAPI.POST("/profile/edit", controller.EditProfile)
 
 	router.Run(":4300")
 }

@@ -3,8 +3,10 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"pseudo-store/db"
 	"pseudo-store/helper"
 	"pseudo-store/model"
+	"reflect"
 )
 
 func Register(context *gin.Context) {
@@ -106,4 +108,45 @@ func GetProfile(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, gin.H{"data": member})
+}
+
+func EditProfile(context *gin.Context) {
+	var input model.Member
+
+	if err := context.ShouldBindJSON(&input); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	id, err := helper.GetThisMemberID(context)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	member, err := model.GetMemberByID(uint(id))
+	inputValue := reflect.ValueOf(input)
+
+	for i := 0; i < inputValue.NumField(); i++ {
+		field := inputValue.Field(i)
+		fieldName := inputValue.Type().Field(i).Name
+		fieldValue := field.Interface()
+
+		existingValue := reflect.ValueOf(member).FieldByName(fieldName).Interface()
+
+		if !reflect.DeepEqual(fieldValue, reflect.Zero(field.Type()).Interface()) && fieldValue != existingValue {
+			reflect.ValueOf(&member).Elem().FieldByName(fieldName).Set(field)
+		}
+	}
+
+	if err := db.Oracle.Save(&member).Error; err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update member"})
+
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Profile updated successfully"})
 }
