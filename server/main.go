@@ -66,5 +66,10 @@ func loadRoutes() {
 	publicAPI.GET("/subcategory/all", controller.ViewSubcategories)
 	publicAPI.GET("/subcategory/:id/p/:page", controller.ViewSubcategoryPage)
 
+	protectedAPI := router.Group("/api")
+	protectedAPI.Use(middleware.VerifyJWT())
+
+	protectedAPI.GET("/profile", controller.GetProfile)
+
 	router.Run(":4300")
 }

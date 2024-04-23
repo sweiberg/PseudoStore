@@ -87,3 +87,23 @@ func Authorize(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"member_id": member.ID, "username": member.Username})
 }
+
+func GetProfile(context *gin.Context) {
+	id, err := helper.GetThisMemberID(context)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	member, err := model.GetMemberByID(uint(id))
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"data": member})
+}
