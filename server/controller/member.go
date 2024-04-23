@@ -1,13 +1,13 @@
 package controller
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"pseudo-store/db"
 	"pseudo-store/helper"
 	"pseudo-store/model"
-	"reflect"
 )
 
 func Register(context *gin.Context) {
@@ -111,16 +111,12 @@ func GetProfile(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"data": member})
 }
 
+type ProfileData struct {
+	Items []string `json:"items"`
+}
+
 func EditProfile(context *gin.Context) {
-	var input model.Member
-
-	if err := context.ShouldBindJSON(&input); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
-		return
-	}
-
-	id, err := helper.GetThisMemberID(context)
+	member, err := helper.GetThisMember(context)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -128,42 +124,31 @@ func EditProfile(context *gin.Context) {
 		return
 	}
 
-	member, err := model.GetMemberByID(uint(id))
-	inputValue := reflect.ValueOf(input)
+	var requestData map[string]interface{}
 
-	for i := 0; i < inputValue.NumField(); i++ {
-		field := inputValue.Field(i)
-		fieldName := inputValue.Type().Field(i).Name
-		fieldValue := field.Interface()
+	if err := json.NewDecoder(context.Request.Body).Decode(&requestData); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse JSON"})
 
-		if fieldName == "password" {
-			password, ok := fieldValue.(string)
+		return
+	}
 
-			if !ok {
-				context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid password type"})
-
-				return
-			}
-
-			hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if password, err := requestData["password"]; err {
+		if password != "" {
+			pwHash, err := bcrypt.GenerateFromPassword([]byte(password.(string)), bcrypt.DefaultCost)
 
 			if err != nil {
-				context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+				context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
 				return
 			}
 
-			fieldValue = hashedPassword
-		}
-
-		existingValue := reflect.ValueOf(member).FieldByName(fieldName).Interface()
-
-		if !reflect.DeepEqual(fieldValue, reflect.Zero(field.Type()).Interface()) && fieldValue != existingValue {
-			reflect.ValueOf(&member).Elem().FieldByName(fieldName).Set(field)
+			requestData["password"] = pwHash
 		}
 	}
 
-	if err := db.Oracle.Save(&member).Error; err != nil {
+	err = db.Oracle.Model(&member).Updates(requestData).Error
+
+	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update member"})
 
 		return
