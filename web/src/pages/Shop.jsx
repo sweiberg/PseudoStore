@@ -4,7 +4,6 @@ import {
   Filters,
   Pagination,
   ProductElement,
-  SectionTitle,
 } from "../components";
 import "../styles/Shop.css";
 import axios from "axios";

@@ -211,9 +211,9 @@ const SingleProduct = () => {
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
               Season: {product.season}
             </div>
-            <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
+            <Link to={`/shop/category/${productData?.data.Category?.ID}`} className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
               Category: {product.category}
-            </div>
+            </Link>
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
               Release Year:{" "}
               {product.release_year}
