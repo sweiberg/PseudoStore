@@ -13,13 +13,15 @@ import {
   Profile,
   Search,
   ThankYou,
-  OrderHistory
+  OrderHistory,
+  Test
 } from "./pages";
 import Dashboard from "./pages/dashboard/index.jsx";
 import { landingLoader } from "./pages/Landing";
 import { singleProductLoader } from "./pages/SingleProduct";
 import { shopLoader } from "./pages/Shop";
 import { ToastContainer } from "react-toastify";
+import { fetchProductLoader } from "./pages/Test.jsx";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +91,11 @@ const router = createBrowserRouter([
       {
         path:"dashboard",
         element: <Dashboard />
+      },
+      {
+        path:"shop/test/:id",
+        element: <Test />,
+        loader: fetchProductLoader,
       }
     ],
   },

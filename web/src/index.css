@@ -104,6 +104,23 @@
   background-size: 100%;
 }
 
+.pi-32 {
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+}
+
+.pi-96 {
+  width: 24rem;
+  object-fit: cover;
+}
+
+.st-96 {
+  min-width: 18rem;
+  height: 24rem;
+  object-fit: cover;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -27,7 +27,7 @@ const Filters = () => {
     "belts",
     "trainers",
   ]);
-  const [selectBrandList, setSelectBrandList] = useState([
+  const [selectTypeList, setSelectBrandList] = useState([
     "all",
     "WALK LONDON",
     "Reebok",
@@ -84,9 +84,9 @@ const Filters = () => {
       />
       {/* COMPANIES */}
       <FormSelect
-        label="select brand"
-        name="brand"
-        list={selectBrandList}
+        label="select type"
+        name="type"
+        list={selectTypeList}
         size="select-sm"
         defaultValue="all"
       />
@@ -113,8 +113,6 @@ const Filters = () => {
         size="range-sm"
         price={2000}
       />
-      {/* Date Picker */}
-      <FormDatePicker label="select minimum production date" name="date" />
 
       {/* In stock */}
       <FormCheckbox

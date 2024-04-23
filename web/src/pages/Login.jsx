@@ -7,6 +7,7 @@ import { store } from "../store";
 import { loginUser, logoutUser } from "../features/auth/authSlice";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -22,10 +23,14 @@ const Login = () => {
 
   const isValidate = () => {
     let isProceed = true;
-
-    if (email.length === 0) {
+  
+    // Add validation for username
+    if (username.length === 0) {
       isProceed = false;
-      toast.warn("Please enter a email");
+      toast.warn("Please enter a username");
+    } else if (email.length === 0) {
+      isProceed = false;
+      toast.warn("Please enter an email");
     } else if (password.length < 6) {
       isProceed = false;
       toast.warn("Password must be minimum 6 characters");
@@ -36,25 +41,41 @@ const Login = () => {
   const proceedLogin = (e) => {
     e.preventDefault();
     if (isValidate()) {
-      fetch("http://localhost:8080/user")
-        .then((res) => res.json())
-        .then((res) => {
-          let data = res;
-          const foundUser = data.filter(
-            (item) => item.email === email && item.password === password
-          );
-          if (foundUser[0]) {
-            toast.success("Login successful");
-            localStorage.setItem("id", foundUser[0].id);
-            store.dispatch(loginUser());
-            navigate("/");
-          } else {
-            toast.warn("Email or password is incorrect");
-          }
-        })
-        .catch((err) => {
-          toast.error("Login failed due to: " + err.message);
-        });
+      // Include the username in the login data
+      const loginData = {
+        username,
+        email,
+        password
+      };
+  
+      fetch("http://localhost:4300/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginData)
+      })
+      .then((res) => {
+        if (!res.ok) throw new Error('Login failed');
+        return res.json();
+      })
+      .then((data) => {
+        toast.success("Login successful");
+        // Assuming the JWT token is in the 'jwt' property of the response
+        const jwt = data.jwt;
+        const userId = data.member_id;
+        const username = data.username;
+        console.log(data);
+        console.log(jwt);
+        console.log(userId);
+        console.log(username);
+        localStorage.setItem("userID", userId);
+        localStorage.setItem("username", username);
+        localStorage.setItem("token", jwt);
+        dispatch(loginUser({ userId, username, jwt }));
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error("Login failed due to: " + err.message);
+      });
     }
   };
 
@@ -65,6 +86,16 @@ const Login = () => {
         <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
           <div className="bg-dark border border-gray-600 shadow w-full rounded-lg divide-y divide-gray-200">
             <form className="px-5 py-7" onSubmit={proceedLogin}>
+              <label className="font-semibold text-sm pb-1 block text-accent-content">
+                Username
+              </label>
+              <input
+                type="text"
+                required={true}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+              />
               <label className="font-semibold text-sm pb-1 block text-accent-content">
                 E-mail
               </label>

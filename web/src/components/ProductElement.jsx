@@ -9,11 +9,11 @@ const ProductElement = ({ id, title, image, price, brandName }) => {
   };
   return (
     <div className="max-w-2xl">
-      <div className="shadow-md rounded-lg max-w-sm bg-base-100">
+      <div className="h-full shadow-md rounded-lg max-w-sm bg-base-100">
         <Link to={`/shop/product/${id}`} onClick={() => window.scrollTo(0, 0)}>
           <img
-            className="rounded-t-lg p-8"
-            src={`https://${image}`}
+            className="st-96 rounded-t-lg p-8"
+            src={`${image}`}
             alt="product image"
           />
         </Link>

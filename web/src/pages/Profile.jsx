@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const [id, setId] = useState(localStorage.getItem("id"));
+  const [id, setId] = useState(localStorage.getItem("userId"));
+  const [username, setUsername] = useState(localStorage.getItem("username"));
   const [userData, setUserData] = useState({});
   const loginState = useSelector((state) => state.auth.isLoggedIn);
   const wishItems = useSelector((state) => state.wishlist.wishItems);
@@ -74,7 +75,7 @@ const Profile = () => {
 
   return (
     <>
-      <SectionTitle title="User Profile" path="Home | User Profile" />
+      <SectionTitle title={`${username} Profile`} />
       <form className="max-w-7xl mx-auto text-center px-10" onSubmit={updateProfile}>
         <div className="grid grid-cols-3 max-lg:grid-cols-1">
           <div className="form-control w-full lg:max-w-xs">

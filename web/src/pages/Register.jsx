@@ -1,86 +1,99 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SectionTitle } from "../components";
-import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [adress, setAdress] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+  const [gender, setGender] = useState("");
+  const [municipality, setMunicipality] = useState("");
+  const [country, setCountry] = useState("United States");
 
   const navigate = useNavigate();
 
   const isValidate = () => {
-    let isProceed = true;
-    let errorMessage = "";
-
-    if (name.length === 0) {
-      isProceed = false;
-      errorMessage = "Please enter the value in username field";
-    } else if (lastname.length === 0) {
-      isProceed = false;
-      errorMessage = "Please enter the value in lastname field";
-    } else if (email.length === 0) {
-      isProceed = false;
-      errorMessage = "Please enter the value in email field";
-    } else if (phone.length < 4) {
-      isProceed = false;
-      errorMessage = "Phone must be longer than 3 characters";
-    } else if (adress.length < 4) {
-      isProceed = false;
-      errorMessage = "Adress must be longer than 3 characters";
-    } else if (password.length < 6) {
-      isProceed = false;
-      errorMessage = "Please enter a password longer than 5 characters";
-    } else if (confirmPassword.length < 6) {
-      isProceed = false;
-      errorMessage = "Please enter a confirm password longer than 5 characters";
-    } else if (password !== confirmPassword) {
-      isProceed = false;
-      errorMessage = "Passwords must match";
+    if (username.trim() === "") {
+      toast.warn("Please enter a username.");
+      return false;
     }
-
-    if (!isProceed) {
-      toast.warn(errorMessage);
+    if (firstName.trim() === "") {
+      toast.warn("Please enter your first name.");
+      return false;
     }
-
-    return isProceed;
+    if (lastName.trim() === "") {
+      toast.warn("Please enter your last name.");
+      return false;
+    }
+    if (!email.includes('@')) {
+      toast.warn("Please enter a valid email address.");
+      return false;
+    }
+    if (password.length < 6) {
+      toast.warn("Password must be at least 6 characters long.");
+      return false;
+    }
+    if (password !== confirmPassword) {
+      toast.warn("Passwords do not match.");
+      return false;
+    }
+    if (!birthdate) {
+      toast.warn("Please enter your birthdate.");
+      return false;
+    }
+    if (gender !== "M" && gender !== "F" && gender !== "Other") {
+      toast.warn("Please select a valid gender.");
+      return false;
+    }
+    if (municipality.trim() === "") {
+      toast.warn("Please enter your municipality.");
+      return false;
+    }
+    return true;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    let regObj = {
-      id: nanoid(),
-      name,
-      lastname,
-      email,
-      phone,
-      adress,
-      password,
-      userWishlist: [],
-    };
-
     if (isValidate()) {
-      fetch("http://localhost:8080/user", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(regObj),
-      })
-        .then((res) => {
-          toast.success("Registration Successful");
-          navigate("/login");
+        // Formatting the birthdate to include a time component (at midnight)
+        const formattedBirthdate = new Date(birthdate).toISOString();
+
+        const registrationData = {
+            username,
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            password,
+            birthdate: formattedBirthdate,
+            gender,
+            municipality,
+            country
+        };
+
+        fetch("http://localhost:4300/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(registrationData),
         })
-        .catch((err) => {
-          toast.error("Failed: " + err.message);
-        });
+            .then((res) => {
+                if (!res.ok) throw new Error('Failed to register');
+                return res.json();
+            })
+            .then((data) => {
+                toast.success("Registration Successful");
+                navigate("/login");
+            })
+            .catch((err) => {
+                toast.error("Registration Failed: " + err.message);
+            });
     }
-  };
+};
+
   return (
     <>
       <SectionTitle title="Register" path="Home | Register" />
@@ -88,76 +101,93 @@ const Register = () => {
         <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
           <div className="bg-dark border border-gray-600 shadow w-full rounded-lg divide-y divide-gray-200">
             <form className="px-5 py-7" onSubmit={handleSubmit}>
-              <label className="font-semibold text-sm pb-1 block text-accent-content">
-                Name
-              </label>
+              {/* Username */}
+              <label className="font-semibold text-sm pb-1 block text-accent-content">Username</label>
               <input
                 type="text"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required={true}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
               />
-              <label className="font-semibold text-sm pb-1 block text-accent-content">
-                Lastname
-              </label>
+              {/* First Name */}
+              <label className="font-semibold text-sm pb-1 block text-accent-content">First Name</label>
               <input
                 type="text"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
-                required={true}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
               />
-              <label className="font-semibold text-sm pb-1 block text-accent-content">
-                E-mail
-              </label>
+              {/* Last Name */}
+              <label className="font-semibold text-sm pb-1 block text-accent-content">Last Name</label>
+              <input
+                type="text"
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+              {/* Email */}
+              <label className="font-semibold text-sm pb-1 block text-accent-content">Email</label>
               <input
                 type="email"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required={true}
+                required
               />
-              <label className="font-semibold text-sm pb-1 block text-accent-content">
-                Phone
-              </label>
-              <input
-                type="tel"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required={true}
-              />
-              <label className="font-semibold text-sm pb-1 block text-accent-content">
-                Adress
-              </label>
-              <input
-                type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                value={adress}
-                onChange={(e) => setAdress(e.target.value)}
-                required={true}
-              />
-              <label className="font-semibold text-sm pb-1 block text-accent-content">
-                Password
-              </label>
+              {/* Password */}
+              <label className="font-semibold text-sm pb-1 block text-accent-content">Password</label>
               <input
                 type="password"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required={true}
+                required
               />
-              <label className="font-semibold text-sm pb-1 block text-accent-content">
-                Repeat Password
-              </label>
+              {/* Confirm Password */}
+              <label className="font-semibold text-sm pb-1 block text-accent-content">Confirm Password</label>
               <input
                 type="password"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                required={true}
+                required
               />
+              {/* Birthdate */}
+              <label className="font-semibold text-sm pb-1 block text-accent-content">Birthdate</label>
+              <input
+                type="date"
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                value={birthdate}
+                onChange={(e) => setBirthdate(e.target.value)}
+                required
+              />
+              {/* Gender */}
+              <label className="font-semibold text-sm pb-1 block text-accent-content">Gender</label>
+              <select
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                required
+              >
+                <option value="">Select Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              {/* Municipality */}
+              <label className="font-semibold text-sm pb-1 block text-accent-content">Municipality</label>
+              <input
+                type="text"
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                value={municipality}
+                onChange={(e) => setMunicipality(e.target.value)}
+                required
+              />
+              {/* Country (preset to United States) */}
+              {/* Submit Button */}
               <button
                 type="submit"
                 className="transition duration-200 bg-blue-600 hover:bg-blue-500 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block"

@@ -15,24 +15,24 @@ import { changeMode } from "../features/auth/authSlice";
 import { store } from "../store";
 import axios from "axios";
 import { clearWishlist, updateWishlist } from "../features/wishlist/wishlistSlice";
+import { updateCartFromCookie } from "../features/cart/cartSlice";
 
 const Header = () => {
-  const [amount, setAmount] = useState(0);
-  const [total, setTotal] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [id, setId] = useState(localStorage.getItem("id"));
+  const [userId, setId] = useState(localStorage.getItem("userId"));
   const dispatch = useDispatch();
   const { darkMode } = useSelector((state) => state.auth);
 
   const loginState = useSelector((state) => state.auth.isLoggedIn);
   const adminState = true;
 
+  const { amount, total } = useSelector(state => state.cart);
 
   const fetchWishlist = async () => {
     if(loginState){
       try {
-        const getResponse = await axios.get(`http://localhost:8080/user/${localStorage.getItem("id")}`);
+        const getResponse = await axios.get(`http://localhost:8080/user/${localStorage.getItem("userId")}`);
         const userObj = getResponse.data;
   
         store.dispatch(updateWishlist({userObj}));
@@ -48,25 +48,18 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const updateCartFromCookies = () => {
-      const cartItems = Cookies.get("cartItems");
-      if (cartItems) {
-        const items = JSON.parse(cartItems);
-        const newAmount = items.reduce((acc, item) => acc + item.amount, 0);
-        const newTotal = items.reduce((acc, item) => acc + item.amount * item.price, 0);
-        setAmount(newAmount);
-        setTotal(newTotal);
-      } else {
-        setAmount(0);
-        setTotal(0);
+    if (amount === 0 && total === 0) {
+      const cookieData = Cookies.get('cartItems');
+      if (cookieData) {
+        const items = JSON.parse(cookieData);
+        dispatch(updateCartFromCookie(items)); // Dispatch an action to update the store based on cookie
       }
-    };
+    }
 
     setIsLoggedIn(loginState);
     setIsAdmin(adminState);
-    updateCartFromCookies();
     fetchWishlist();
-  }, [loginState]);
+  }, [dispatch, amount, total, isLoggedIn, isAdmin]);
 
   return (
     <>

@@ -79,7 +79,7 @@ const OrderHistory = () => {
                         {order.cartItems.map((product, counter) => (
                           <tr className="text-accent-content" key={nanoid()}>
                             <th>{counter + 1}</th>
-                            <th><img src={`https://${product.image}`} alt="" className="w-10" /></th>
+                            <th><img src={`${product.image}`} alt="" className="w-10" /></th>
                             <td>{product.title}</td>
                             <td>{product.selectedSize}</td>
                             <td>{product.amount}</td>

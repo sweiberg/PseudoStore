@@ -64,10 +64,22 @@ const cartSlice = createSlice({
             cartSlice.caseReducers.calculateTotals(state);
             saveCartToCookie(state.cartItems);
             toast.success('Product added to the cart!');
-        }
+        },
+        updateCartFromCookie: (state, action) => {
+            state.cartItems = action.payload;
+            // Calculate totals based on these items
+            let newTotal = 0;
+            let newAmount = 0;
+            action.payload.forEach(item => {
+              newAmount += item.amount;
+              newTotal += item.amount * item.price;
+            });
+            state.total = newTotal;
+            state.amount = newAmount;
+          },
     }
 });
 
-export const { clearCart, removeItem, updateCartAmount, calculateTotals, addToCart } = cartSlice.actions;
+export const { clearCart, removeItem, updateCartAmount, calculateTotals, addToCart, updateCartFromCookie } = cartSlice.actions;
 
 export default cartSlice.reducer;
