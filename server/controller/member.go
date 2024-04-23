@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"pseudo-store/db"
 	"pseudo-store/helper"
@@ -134,6 +135,26 @@ func EditProfile(context *gin.Context) {
 		field := inputValue.Field(i)
 		fieldName := inputValue.Type().Field(i).Name
 		fieldValue := field.Interface()
+
+		if fieldName == "password" {
+			password, ok := fieldValue.(string)
+
+			if !ok {
+				context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid password type"})
+
+				return
+			}
+
+			hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+
+			if err != nil {
+				context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+
+				return
+			}
+
+			fieldValue = hashedPassword
+		}
 
 		existingValue := reflect.ValueOf(member).FieldByName(fieldName).Interface()
 
