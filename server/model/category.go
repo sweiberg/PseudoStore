@@ -28,6 +28,43 @@ func GetCategoryByID(id uint) (Category, error) {
 	return category, nil
 }
 
+func GetCatPaginate(id uint, page uint, price uint, order string, search string, gender string) ([]Product, error) {
+	var products []Product
+
+	query := db.Oracle.Model(&Product{})
+
+	if id != 0 {
+		query = query.Where("category_id = ?", id)
+	}
+
+	if search != "" && search != "0" {
+		query = query.Where("Name LIKE ?", "%"+search+"%")
+	}
+
+	if price != 0 {
+		query = query.Where("Price >= ?", price)
+	}
+
+	if order == "asc" {
+		query = query.Order("Name ASC")
+	} else {
+		query = query.Order("Name DESC")
+	}
+
+	if gender != "all" {
+		query = query.Where("Gender = ?", gender)
+	}
+
+	offset := int(page-1) * 10
+	query = query.Limit(10).Offset(offset)
+
+	if err := query.Find(&products).Error; err != nil {
+		return nil, err
+	}
+
+	return products, nil
+}
+
 func GetCategoryPage(id uint, page uint) (Category, error) {
 	var category Category
 	var products []*Product
