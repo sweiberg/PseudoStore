@@ -32,7 +32,6 @@ export const shopLoader = async ({ request }) => {
     category: params.category ?? "all",
     date: mydate ?? "",
     gender: params.gender ?? "all",
-    order: params.order ?? "",
     price: params.price ?? "all",
     search: params.search ?? "",
     current_page: Number(params.page) || 1
@@ -44,8 +43,7 @@ export const shopLoader = async ({ request }) => {
     (filterObj.category !== 'all' ? `&category=${filterObj.category}` : "") +
     (filterObj.gender !== 'all' ? `&gender=${filterObj.gender}` : ``) +
     ((filterObj.search != '') ? `&q=${encodeURIComponent(filterObj.search)}` : ``) +
-    (filterObj.order ? `&_sort=price.current.value` : "") + // Check if the order exists, then sort it in ascending order. After that, the API response will be modified if descending order or any other filter is selected.
-    (filterObj.price !== 'all' ? `&price.current.value_lte=${filterObj.price}` : ``) +
+    (filterObj.price !== 'all' ? `&price=${filterObj.price}` : ``) +
     (filterObj.date ? `&productionDate=${filterObj.date}` : ``) // It only matched exact for the date and time. 
 
   try {

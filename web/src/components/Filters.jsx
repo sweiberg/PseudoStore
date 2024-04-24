@@ -54,19 +54,11 @@ const Filters = () => {
         size="select-sm"
         defaultValue="all"
       />
-      {/* ORDER */}
-      <FormSelect
-        label="sort by"
-        name="order"
-        list={["asc", "desc", "price high", "price low"]}
-        size="select-sm"
-        defaultValue="a-z"
-      />
       {/* Producer */}
       <FormSelect
         label="Select gender"
         name="gender"
-        list={["all", "male", "female"]}
+        list={["Men", "Women"]}
         size="select-sm"
         defaultValue="all"
       />
