@@ -110,3 +110,29 @@ func TrendFour(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"data": trendFour})
 }
+
+func TrendFive(context *gin.Context) {
+	var t struct {
+		Season       string `json:"season"`
+		CategoryName string `json:"category_name"`
+		LowDate      string `json:"low_date"`
+		HighDate     string `json:"high_date"`
+		ItemCount    int    `json:"item_count"`
+	}
+
+	if err := context.BindJSON(&t); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
+
+		return
+	}
+
+	trendFive, err := trend.GetTrendFive(t.Season, t.CategoryName, t.LowDate, t.HighDate, t.ItemCount)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"data": trendFive})
+}
