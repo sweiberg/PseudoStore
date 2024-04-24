@@ -17,7 +17,7 @@ func GetTrendFive(season string, categoryName string, lowDate string, highDate s
 			pm.Method, 
 			COUNT(DISTINCT o.ID) AS Multi_Count
 		FROM 
-			orders o
+			Orders o
 		JOIN 
 			Products p ON o.Product_ID = p.ID 
 		JOIN 
