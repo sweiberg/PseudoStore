@@ -7,10 +7,7 @@ import Trend2 from "./trend/trend2.jsx";
 import Trend3 from "./trend/trend3.jsx";
 import Trend4 from "./trend/trend4.jsx";
 import Trend5 from "./trend/trend5.jsx";
-import Info1 from "./info/info1.jsx"
-import Info2 from "./info/info2.jsx"
-import Info3 from "./info/info3.jsx"
-import Info4 from "./info/info4.jsx"
+import Info1 from "./info/info.jsx"
 import Footer from '../../components/Footer.jsx'
 
 Chart.register(CategoryScale);
@@ -30,7 +27,7 @@ const Dashboard = () => {
         <>
             <div>
                 <Side trends={trends} setCurrentTrend={setCurrentTrend} currentTrend={currentTrend} />
-                <div className="relative md:ml-64 bg-blueGray-100">
+                <div className="h-dvh relative md:ml-64 bg-blueGray-100">
                     <nav className="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
                         <div className="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
                             <span className="text-white text-sm uppercase hidden lg:inline-block font-semibold">Dashboard</span>
@@ -42,15 +39,10 @@ const Dashboard = () => {
                             </ul>
                         </div>
                     </nav>
-                    <div className="relative bg-blueGray-800 md:pt-32 pb-32 pt-12">
+                    <div className="h-fit relative bg-blueGray-800 md:pt-32 pb-32 pt-12">
                         <div className="px-4 md:px-10 mx-auto w-full">
                             <div>
-                                <div className="flex flex-wrap">
-                                    <Info1 />
-                                    <Info2 />
-                                    <Info3 />
-                                    <Info4 />
-                                </div>
+                                <Info1 />
                             </div>
                         </div>
                     </div>

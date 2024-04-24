@@ -23,11 +23,23 @@ const Header = () => {
   const [userId, setId] = useState(localStorage.getItem("userId"));
   const dispatch = useDispatch();
   const { darkMode } = useSelector((state) => state.auth);
+  const [categories, setCategories] = useState([]);
 
   const loginState = useSelector((state) => state.auth.isLoggedIn);
   const adminState = true;
 
   const { amount, total } = useSelector(state => state.cart);
+
+  const getSubcategories = async () => {
+    try {
+      const response = await axios('http://localhost:4300/api/subcategory/all');
+      console.log(response.data.data);
+      setCategories(response.data.data);
+    } catch (error) {
+      console.error("Failed to fetch subcategories:", error);
+      setCategories([]);
+    }
+  };
 
   const fetchWishlist = async () => {
     if(loginState){
@@ -55,11 +67,11 @@ const Header = () => {
         dispatch(updateCartFromCookie(items)); // Dispatch an action to update the store based on cookie
       }
     }
-
+    getSubcategories();
     setIsLoggedIn(loginState);
     setIsAdmin(adminState);
     fetchWishlist();
-  }, [dispatch, amount, total, isLoggedIn, isAdmin]);
+  }, [dispatch, amount, total, loginState, adminState]);
 
   return (
     <>
@@ -249,7 +261,7 @@ const Header = () => {
           <NavLink className="text-accent-content" to="/shop">
             Shop
           </NavLink>
-          {!isLoggedIn && !isAdmin && (
+          {!isLoggedIn && (
             <>
               <NavLink className="text-accent-content" to="/login">
                 Login
@@ -259,7 +271,7 @@ const Header = () => {
               </NavLink>
             </>
           )}
-          {isAdmin && (
+          {isLoggedIn && (
             <>
               <NavLink className="text-accent-content" to="/dashboard">
                 Dashboard
