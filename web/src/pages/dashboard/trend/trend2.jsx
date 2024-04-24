@@ -120,11 +120,18 @@ function Trend2() {
     labels: graphData ? graphData.map(item => item.OrderMonth) : [],
     datasets: [
       {
-        label: 'Result',
+        label: 'Order Growth',
         backgroundColor: "#FFF",
         borderColor: '#FFF',
         color: '#FFF',
         data: graphData ? graphData.map(item => item.OrderCountGrowthRate) : [],
+      },
+      {
+        label: 'Member Growth',
+        backgroundColor: "#FF6961",
+        borderColor: '#FF6961',
+        color: '#FF6961',
+        data: graphData ? graphData.map(item => item.NewMembersGrowthRate) : [],
       },
     ],
   };
@@ -193,15 +200,55 @@ function Trend2() {
                       </div>
                     </div>
                   </div>
-                  <div className="p-4 flex-auto"><div className="relative h-650-px">Test</div></div>
+                  <div className="p-4 flex-auto">
+                    <div className="relative h-650-px overflow-y-scroll">
+                      <code className="block whitespace-pre-wrap">
+                        WITH MonthlyData AS (<br />
+                          <span className="pl-4 inline-block">SELECT</span><br />
+                            <span className="pl-8 inline-block">TO_CHAR(m.CREATED_AT, 'YYYY-MM') AS OrderMonth,</span><br />
+                            <span className="pl-8 inline-block">m.MUNICIPALITY,</span><br />
+                            <span className="pl-8 inline-block">COUNT(DISTINCT m.ID) AS NewMembers,</span><br />
+                            <span className="pl-8 inline-block">COUNT(DISTINCT o.ID) AS OrderCount</span><br />
+                          <span className="pl-4">FROM</span><br />
+                            <span className="pl-8 inline-block">MEMBERS m</span><br />
+                            <span className="pl-8 inline-block">LEFT JOIN ORDERS o ON m.ID = o.MEMBER_ID AND </span><br />
+                            <span className="pl-8 inline-block">TO_CHAR(m.CREATED_AT, 'YYYY-MM') = TO_CHAR(o.CREATED_AT, 'YYYY-MM')</span><br />
+                          <span className="pl-4">GROUP BY</span><br />
+                            <span className="pl-8 inline-block">TO_CHAR(m.CREATED_AT, 'YYYY-MM'),</span><br />
+                            <span className="pl-8 inline-block">m.MUNICIPALITY</span><br />
+                        )<br />
+                        SELECT <br />
+                          <span className="pl-4 inline-block">md.OrderMonth,</span><br />
+                          <span className="pl-4 inline-block">md.Municipality,</span><br />
+                          <span className="pl-4 inline-block">md.NewMembers,</span><br />
+                          <span className="pl-4 inline-block">NVL(pd.NewMembers, 0) AS PrevMonthNewMembers,</span><br />
+                          <span className="pl-4 inline-block">md.OrderCount,</span><br />
+                          <span className="pl-4 inline-block">NVL(pd.OrderCount, 0) AS PrevMonthOrderCount,</span><br />
+                          <span className="pl-4 inline-block">ROUND(GREATEST(NVL((md.NewMembers - NVL(pd.NewMembers, 0)) / NULLIF(NVL(pd.NewMembers, 1), 0) * 100, 0), 0), 2) AS NewMembersGrowthRate,</span><br />
+                          <span className="pl-4 inline-block">ROUND(GREATEST(NVL((md.OrderCount - NVL(pd.OrderCount, 0)) / NULLIF(NVL(pd.OrderCount, 1), 0) * 100, 0), 0), 2) AS OrderCountGrowthRate</span><br />
+                        FROM <br />
+                          <span className="pl-4 inline-block">MonthlyData md</span><br />
+                        LEFT JOIN <br />
+                          <span className="pl-4 inline-block">MonthlyData pd ON md.Municipality = pd.Municipality AND <br />
+                                  ADD_MONTHS(TO_DATE(md.OrderMonth, 'YYYY-MM'), -1) = TO_DATE(pd.OrderMonth, 'YYYY-MM')</span><br />
+                        WHERE <br />
+                          <span className="pl-4 inline-block">md.OrderMonth BETWEEN <strong>'{lowDate}'</strong> AND <strong>'{highDate}'</strong></span><br />
+                          <span className="pl-4 inline-block">AND md.Municipality = <strong>'{selections.first.name}'</strong></span><br />
+                        ORDER BY <br />
+                          <span className="pl-4 inline-block">md.OrderMonth, md.Municipality;</span><br />
+                      </code>
+                    </div>
+                  </div>
               </div>
           </div>
           <div className="flex flex-wrap mt-4">
         <div className="w-full mb-12 xl:mb-0 px-4">
           {Object.entries(dropdown).map(([key, { title, list, selected }]) => (
-            <Button key={key}
+            <Button 
+              key={key}
               title={title}
               list={list}
+              selected={selections[key]}
               onSelectionChange={(item) => handleSelectionChange(key, item)}
             />
           ))}

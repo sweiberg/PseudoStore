@@ -5,7 +5,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const Button = ({ title, list, onSelectionChange }) => {
+const Button = ({ title, list, selected, onSelectionChange }) => {
   const [selectedItem, setSelectedItem] = useState(list[0]);  // Default to the first item or use null if no default
 
   const handleSelection = (item) => {
@@ -19,7 +19,7 @@ const Button = ({ title, list, onSelectionChange }) => {
     <Menu as="div" className="relative inline-block text-left mr-4">
       <div>
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          {title}: {selectedItem.name}
+          {title}: {selected.name}
         </Menu.Button>
       </div>
 

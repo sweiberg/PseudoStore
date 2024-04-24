@@ -314,26 +314,26 @@ function Trend1() {
                     <div className="relative h-650-px">
                         <code className="block whitespace-pre-wrap">
                             SELECT<br />
-                            <span className="pl-4">TO_CHAR(o.CREATED_AT, 'YYYY-MM') AS OrderMonth,<br /></span>
-                            <span className="pl-4">COUNT(*) AS TotalOrders<br /></span>
+                            <span className="pl-4 inline-block">TO_CHAR(o.CREATED_AT, 'YYYY-MM') AS OrderMonth,</span><br />
+                            <span className="pl-4 inline-block">COUNT(*) AS TotalOrders</span><br />
                             FROM<br /> 
-                                <span className="pl-4">ORDERS o<br /></span>
-                                <span className="pl-4">INNER JOIN MEMBERS m ON o.MEMBER_ID = m.ID<br /></span>
-                                <span className="pl-4">INNER JOIN PRODUCTS p ON o.PRODUCT_ID = p.ID<br /></span>
-                                <span className="pl-4">INNER JOIN CATEGORIES c ON p.CATEGORY_ID = c.ID<br /></span>
-                                <span className="pl-4">INNER JOIN SUBCATEGORIES s ON p.SUBCATEGORY_ID = s.ID<br /></span>
+                                <span className="pl-4 inline-block">ORDERS o</span><br />
+                                <span className="pl-4 inline-block">INNER JOIN MEMBERS m ON o.MEMBER_ID = m.ID</span><br />
+                                <span className="pl-4 inline-block">INNER JOIN PRODUCTS p ON o.PRODUCT_ID = p.ID</span><br />
+                                <span className="pl-4 inline-block">INNER JOIN CATEGORIES c ON p.CATEGORY_ID = c.ID</span><br />
+                                <span className="pl-4 inline-block">INNER JOIN SUBCATEGORIES s ON p.SUBCATEGORY_ID = s.ID</span><br />
                             WHERE<br /> 
-                                <span className="pl-4">c.NAME = <strong>'{selections.first.name}'</strong> AND<br /></span>
-                                <span className="pl-4">s.NAME = <strong>'{selections.second.name}'</strong> AND<br /></span>
-                                <span className="pl-4">TRUNC(MONTHS_BETWEEN(SYSDATE, m.BIRTHDATE) / 12) BETWEEN <strong>{selections.third.name}</strong> AND <strong>{selections.fourth.name}</strong> AND<br /></span>
-                                <span className="pl-4">m.GENDER = <strong>'{selections.fifth.name}'</strong> AND<br /></span>
-                                <span className="pl-4">m.MUNICIPALITY = <strong>'{selections.sixth.name}'</strong> AND<br /></span>
-                                <span className="pl-4">o.CREATED_AT BETWEEN TO_DATE(<strong>'{lowDate}'</strong>, 'YYYY-MM') AND <br /></span>
-                                <span className="pl-4">TO_DATE(<strong>'{highDate}'</strong>, 'YYYY-MM')<br /></span>
+                                <span className="pl-4 inline-block">c.NAME = <strong>'{selections.first.name}'</strong> AND</span><br />
+                                <span className="pl-4 inline-block">s.NAME = <strong>'{selections.second.name}'</strong> AND</span><br />
+                                <span className="pl-4 inline-block">TRUNC(MONTHS_BETWEEN(SYSDATE, m.BIRTHDATE) / 12) BETWEEN <strong>{selections.third.name}</strong> AND <strong>{selections.fourth.name}</strong> AND</span><br />
+                                <span className="pl-4 inline-block">m.GENDER = <strong>'{selections.fifth.name}'</strong> AND</span><br />
+                                <span className="pl-4 inline-block">m.MUNICIPALITY = <strong>'{selections.sixth.name}'</strong> AND</span><br />
+                                <span className="pl-4 inline-block">o.CREATED_AT BETWEEN TO_DATE(<strong>'{lowDate}'</strong>, 'YYYY-MM') AND </span><br />
+                                <span className="pl-4 inline-block">TO_DATE(<strong>'{highDate}'</strong>, 'YYYY-MM')</span><br /> 
                             GROUP BY<br /> 
-                                <span className="pl-4">TO_CHAR(o.CREATED_AT, 'YYYY-MM')<br /></span>
+                                <span className="pl-4 inline-block">TO_CHAR(o.CREATED_AT, 'YYYY-MM')</span><br />
                             ORDER BY<br /> 
-                                <span className="pl-4">OrderMonth;<br /></span>
+                                <span className="pl-4 inline-block">OrderMonth;</span><br />
                         </code>
                     </div>
                 </div>
@@ -346,7 +346,7 @@ function Trend1() {
               key={key === 'first' ? `${key}_${selections.name}` : `${key}_${selections.first.name}`}
               title={title}
               list={key === 'second' ? subcategories : list}
-              selected={selections.first}
+              selected={selections[key]}
               onSelectionChange={(item) => handleSelectionChange(key, item)}
             />
           ))}

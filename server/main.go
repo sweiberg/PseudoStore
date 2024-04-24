@@ -74,8 +74,10 @@ func loadRoutes() {
 	protectedAPI.POST("/profile/edit", controller.EditProfile)
 
 	protectedAPI.GET("/dashboard/stats", controller.DashboardStats)
-	protectedAPI.GET("/dashboard/trend/1", controller.TrendOne)
-	protectedAPI.GET("/dashboard/trend/2", controller.TrendTwo)
+	protectedAPI.POST("/dashboard/trend/1", controller.TrendOne)
+	protectedAPI.POST("/dashboard/trend/2", controller.TrendTwo)
+	protectedAPI.POST("/dashboard/trend/3", controller.TrendThree)
+	protectedAPI.POST("/dashboard/trend/4", controller.TrendFour)
 
 	router.Run(":4300")
 }
