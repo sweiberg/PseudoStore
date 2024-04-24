@@ -3,8 +3,7 @@ package trend
 import "pseudo-store/db"
 
 type TrendFour struct {
-	Year            string
-	Month           string
+	OrderMonth      string
 	AverageLifetime float64
 }
 
@@ -21,8 +20,7 @@ func GetTrendFour(municipality string, gender string, lowDate string, highDate s
 				MIN(o.created_at) AS first_order_date,
 				MAX(o.created_at) AS latest_order_date,
 				EXTRACT(DAY FROM (MAX(o.created_at) - MIN(o.created_at))) AS member_lifetime_days,
-				EXTRACT(YEAR FROM o.created_at) AS order_year,
-				EXTRACT(MONTH FROM o.created_at) AS order_month
+				TO_CHAR(o.created_at, 'YYYY-MM') AS order_year_month
 			FROM
 				Members m
 			JOIN
@@ -33,18 +31,17 @@ func GetTrendFour(municipality string, gender string, lowDate string, highDate s
 				AND m.Gender = ?
 				AND m.Municipality = ?
 			GROUP BY
-				m.ID, m.First_Name, m.Last_Name, m.Gender, EXTRACT(YEAR FROM o.created_at), EXTRACT(MONTH FROM o.created_at)
+				m.ID, m.First_Name, m.Last_Name, m.Gender, TO_CHAR(o.created_at, 'YYYY-MM')
 		)
 		SELECT
-			order_year AS year,
-			TO_CHAR(TO_DATE(order_month, 'MM'), 'Month') AS month,
+			order_year_month AS order_month,
 			AVG(member_lifetime_days) AS average_lifetime
 		FROM
 			MonthlyMemberLifetime
 		GROUP BY
-			gender, order_year, order_month
+			gender, order_year_month
 		ORDER BY
-			gender, order_year, order_month
+			gender, order_year_month
 	`, lowDate, highDate, lowAge, highAge, gender, municipality).Scan(&results).Error
 
 	if err != nil {
