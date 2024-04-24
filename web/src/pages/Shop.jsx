@@ -50,10 +50,10 @@ export const shopLoader = async ({ request }) => {
 
   try {
     const response = await axios(
-      `http://localhost:8080/products${parameter}`
+      `http://localhost:4300/api/shop${parameter}`
 
     );
-    let data = response.data;
+    let data = response.data.data;
     console.log(response.data)
     // sorting in descending order
     if (filterObj.order && !(filterObj.order === "asc" || filterObj.order === "price low")) data.sort((a, b) => b.price.current.value - a.price.current.value)
@@ -81,11 +81,10 @@ const Shop = () => {
             productLoaderData.productsData.map((product) => (
               <ProductElement
                 key={nanoid()}
-                id={product.id}
+                id={product.ID}
                 title={product.name}
-                image={product.imageUrl}
-                price={product.price.current.value}
-                brandName={product.brandName}
+                image={`/images/subcat/${product.subcategory_id}/a.jpg`}
+                price={product.price}
               />
             ))}
         </div>
