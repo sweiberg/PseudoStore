@@ -28,7 +28,7 @@ func ViewCategory(context *gin.Context) {
 }
 
 func PagShop(context *gin.Context) {
-	pageStr := context.Query("page")
+	pageStr := context.Query("_page")
 	priceStr := context.Query("price")
 
 	page, _ := strconv.Atoi(pageStr)
