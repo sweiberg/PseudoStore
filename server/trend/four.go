@@ -28,7 +28,7 @@ func GetTrendFour(municipality string, gender string, lowDate string, highDate s
 			JOIN
 				Orders o ON m.ID = o.Member_ID
 			WHERE
-				o.created_at BETWEEN TO_DATE(?, 'YYYY-MM-DD') AND TO_DATE(?, 'YYYY-MM-DD')
+				o.created_at BETWEEN TO_DATE(?, 'YYYY-MM') AND TO_DATE(?, 'YYYY-MM')
 				AND TRUNC(MONTHS_BETWEEN(SYSDATE, m.Birthdate) / 12) BETWEEN ? AND ?
 				AND m.Gender = ?
 				AND m.Municipality = ?
