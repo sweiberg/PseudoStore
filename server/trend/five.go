@@ -8,7 +8,7 @@ type TrendFive struct {
 	MultiCount int
 }
 
-func GetTrendFive() ([]TrendFive, error) {
+func GetTrendFive(season string, categoryName string, lowDate string, highDate string, itemCount int) ([]TrendFive, error) {
 	var results []TrendFive
 
 	err := db.Oracle.Raw(`
@@ -25,18 +25,18 @@ func GetTrendFive() ([]TrendFive, error) {
 		JOIN 
 			Payments pm ON o.ID = pm.Order_ID
 		WHERE 
-			o.Created_At BETWEEN TO_DATE('2017-01', 'YYYY-MM') AND TO_DATE('2022-01', 'YYYY-MM')
+			o.Created_At BETWEEN TO_DATE(?, 'YYYY-MM') AND TO_DATE(?, 'YYYY-MM')
 		AND 
-			p.Season = 'Fall'
+			p.Season = ?
 		AND 
-			c.Name = 'Apparel'
+			c.Name = ?
 		GROUP BY 
 			c.Name, TO_CHAR(o.Created_At, 'YYYY-MM-DD'), pm.Method
 		HAVING 
-			COUNT(DISTINCT o.Product_ID) > 3
+			COUNT(DISTINCT o.Product_ID) > ?
 		ORDER BY 
-			Order_Month, Multi_Count DESC;
-	`).Scan(&results).Error
+			Order_Month, Multi_Count DESC
+	`, lowDate, highDate, season, categoryName, itemCount).Scan(&results).Error
 
 	if err != nil {
 		return nil, err
