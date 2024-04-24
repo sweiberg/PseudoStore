@@ -13,7 +13,7 @@ func GetTrendFive(season string, categoryName string, lowDate string, highDate s
 
 	err := db.Oracle.Raw(`
 		SELECT 
-			TO_CHAR(o.Created_At, 'YYYY-MM-DD') 
+			TO_CHAR(o.Created_At, 'YYYY-MM') 
 			AS Order_Month, pm.Method, COUNT(DISTINCT o.ID) 
 			AS Multi_Count
 		FROM 
@@ -31,7 +31,7 @@ func GetTrendFive(season string, categoryName string, lowDate string, highDate s
 		AND 
 			c.Name = ?
 		GROUP BY 
-			c.Name, TO_CHAR(o.Created_At, 'YYYY-MM-DD'), pm.Method
+			c.Name, TO_CHAR(o.Created_At, 'YYYY-MM'), pm.Method
 		HAVING 
 			COUNT(DISTINCT o.Product_ID) > ?
 		ORDER BY 
