@@ -27,36 +27,20 @@ func ViewCategory(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"data": category})
 }
 
-func CatPagination(context *gin.Context) {
-	id, err := strconv.ParseUint(context.Param("id"), 10, 64)
+func PagShop(context *gin.Context) {
+	catidStr := context.Query("id")
+	pageStr := context.Query("page")
+	priceStr := context.Query("price")
 
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	catid, _ := strconv.Atoi(catidStr)
+	page, _ := strconv.Atoi(pageStr)
+	price, _ := strconv.Atoi(priceStr)
 
-		return
-	}
+	order := context.Query("order")
+	search := context.Query("search")
+	gender := context.Query("gender")
 
-	page, err := strconv.ParseUint(context.Param("page"), 10, 64)
-
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
-		return
-	}
-
-	price, err := strconv.ParseUint(context.Param("price"), 10, 64)
-
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
-		return
-	}
-
-	order := context.Param("order")
-	search := context.Param("search")
-	gender := context.Param("gender")
-
-	category, err := model.GetCatPaginate(uint(id), uint(page), uint(price), order, search, gender)
+	category, err := model.GetCatPaginate(catid, page, price, order, search, gender)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

@@ -28,7 +28,7 @@ func GetCategoryByID(id uint) (Category, error) {
 	return category, nil
 }
 
-func GetCatPaginate(id uint, page uint, price uint, order string, search string, gender string) ([]Product, error) {
+func GetCatPaginate(id int, page int, price int, order string, search string, gender string) ([]Product, error) {
 	var products []Product
 
 	query := db.Oracle.Model(&Product{})
@@ -51,7 +51,7 @@ func GetCatPaginate(id uint, page uint, price uint, order string, search string,
 		query = query.Order("Name DESC")
 	}
 
-	if gender != "all" {
+	if gender != "all" && gender != "" {
 		query = query.Where("Gender = ?", gender)
 	}
 

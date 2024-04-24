@@ -59,8 +59,7 @@ func loadRoutes() {
 	publicAPI.GET("/product/:id", controller.ViewProduct)
 	publicAPI.GET("/product/popular/:limit", controller.ViewPopularProducts)
 
-	publicAPI.GET("/cat/:id/page/:page/price/:price/order/:order/search/:search/gender/:gender", controller.CatPagination)
-
+	publicAPI.GET("/shop", controller.PagShop)
 	publicAPI.GET("/category/:id", controller.ViewCategory)
 	publicAPI.GET("/category/all", controller.ViewCategories)
 	publicAPI.GET("/category/:id/p/:page", controller.ViewCategoryPage)
