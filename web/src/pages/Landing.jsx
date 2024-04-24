@@ -6,7 +6,7 @@ import axios from "axios";
 
 export const landingLoader = async () => {
   try {
-    const response = await axios(`http://localhost:4300/api/product/popular/8`);
+    const response = await axios(`http://localhost:4300/api/product/popular/12`);
     console.log(response.data);
     return { products: response.data.data };  // Accessing the nested 'data' that contains the product array
   } catch (error) {

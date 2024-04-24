@@ -7,7 +7,7 @@ const QuantityInput = ({ quantity, setQuantity }) => {
     <>
       <button
         type="button"
-        className="h-10 w-10 border-gray-600 flex justify-center items-center border leading-10 text-gray-600 transition hover:opacity-75"
+        className="h-10 w-10 border-gray-600 flex justify-center items-center border leading-10 text-gray-600 transition hover:text-white hover:bg-blue-500"
         onClick={() => {
           if(quantity !== 1){
           setQuantity(quantity - 1)}
@@ -27,7 +27,7 @@ const QuantityInput = ({ quantity, setQuantity }) => {
 
       <button
         type="button"
-        className="h-10 w-10 border-gray-600 flex justify-center items-center border leading-10 text-gray-600 transition hover:opacity-75"
+        className="h-10 w-10 border-gray-600 flex justify-center items-center border leading-10 text-gray-600 transition  hover:text-white hover:bg-blue-500"
         onClick={() => setQuantity(quantity + 1)}
       >
         <FaPlus className="text-2xl" />

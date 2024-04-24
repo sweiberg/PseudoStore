@@ -17,10 +17,10 @@ function MonthPicker({ value, minDate, maxDate, onChange }) {
 
 
 function Trend2() {
-  const name = "Geographical Trends";
+  const name = "Geographical Growth";
   const [graphData, setGraphData] = useState([]);
   const [lowDate, setLowDate] = useState('2017-01');
-  const [highDate, setHighDate] = useState('2018-01');
+  const [highDate, setHighDate] = useState('2022-01');
   const minLowDate = '2015-01'
   const maxHighDate = '2022-12'
 
@@ -131,6 +131,7 @@ function Trend2() {
         backgroundColor: "#FF6961",
         borderColor: '#FF6961',
         color: '#FF6961',
+        hidden: true,
         data: graphData ? graphData.map(item => item.NewMembersGrowthRate) : [],
       },
     ],

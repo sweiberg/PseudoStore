@@ -7,7 +7,7 @@ import {
 } from "../components";
 import "../styles/Shop.css";
 import axios from "axios";
-import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { nanoid } from "nanoid";
 
 export const shopLoader = async ({ request }) => {
@@ -35,7 +35,6 @@ export const shopLoader = async ({ request }) => {
     order: params.order ?? "",
     price: params.price ?? "all",
     search: params.search ?? "",
-    in_stock: params.stock === undefined ? false : true,
     current_page: Number(params.page) || 1
   };
 
@@ -46,7 +45,6 @@ export const shopLoader = async ({ request }) => {
     (filterObj.gender !== 'all' ? `&gender=${filterObj.gender}` : ``) +
     ((filterObj.search != '') ? `&q=${encodeURIComponent(filterObj.search)}` : ``) +
     (filterObj.order ? `&_sort=price.current.value` : "") + // Check if the order exists, then sort it in ascending order. After that, the API response will be modified if descending order or any other filter is selected.
-    (filterObj.in_stock ? (`&isInStock`) : '') +
     (filterObj.price !== 'all' ? `&price.current.value_lte=${filterObj.price}` : ``) +
     (filterObj.date ? `&productionDate=${filterObj.date}` : ``) // It only matched exact for the date and time. 
 
@@ -56,7 +54,7 @@ export const shopLoader = async ({ request }) => {
 
     );
     let data = response.data;
-
+    console.log(response.data)
     // sorting in descending order
     if (filterObj.order && !(filterObj.order === "asc" || filterObj.order === "price low")) data.sort((a, b) => b.price.current.value - a.price.current.value)
     return { productsData: data, productsLength: data.length, page: filterObj.current_page };
@@ -68,9 +66,6 @@ export const shopLoader = async ({ request }) => {
   return null;
 };
 
-
-
-
 const Shop = () => {
 
   const productLoaderData = useLoaderData();
@@ -81,7 +76,7 @@ const Shop = () => {
       <div className="max-w-7xl mx-auto mt-5">
         <Filters />
         {productLoaderData.productsData.length === 0 && <h2 className="text-accent-content text-center text-4xl my-10">No products found for this filter</h2>}
-        <div className="grid grid-cols-4 px-2 gap-y-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 shop-products-grid">
+        <div className="grid grid-cols-4 mt-5 gap-y-6 gap-x-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 shop-products-grid">
           {productLoaderData.productsData.length !== 0 &&
             productLoaderData.productsData.map((product) => (
               <ProductElement

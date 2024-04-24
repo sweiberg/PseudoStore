@@ -1,6 +1,6 @@
 .link-button {
     background: none;
-    color: rgba(51,65,85,var(--tw-text-opacity));
+    color: rgba(51,65,85);
     border: none;
     padding: 0;
     font: inherit;
@@ -10,19 +10,23 @@
 
 .link-button:hover, .link-button:focus {
     text-decoration: none;
-    color: rgba(100,116,139,var(--tw-text-opacity));
+    color: rgba(100,116,139);
 }
 
 .link-button.active {
-    color: rgba(14,165,233,var(--tw-text-opacity));
+    color: rgba(14,165,233);
     text-decoration: none;
 }
 
 .link-button.active:hover {
-    color: rgba(2,132,199,var(--tw-text-opacity));
+    color: rgba(2,132,199);
     text-decoration: none;
 }
 
 .shadow-lg, .shadow-md {
-box-shadow: var(--tw-ring-offset-shadow,0 0 transparent),var(--tw-ring-shadow,0 0 transparent),var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow,0 0 transparent);
+}
+
+code {
+    color: rgba(51,65,85);
 }

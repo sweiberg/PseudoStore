@@ -81,7 +81,7 @@ const Login = () => {
 
   return (
     <>
-      <SectionTitle title="Login" path="Home | Login" />
+      <SectionTitle title="Login" />
       <div className="flex flex-col justify-center sm:py-12">
         <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
           <div className="bg-dark border border-gray-600 shadow w-full rounded-lg divide-y divide-gray-200">
@@ -94,7 +94,7 @@ const Login = () => {
                 required={true}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
               />
               <label className="font-semibold text-sm pb-1 block text-accent-content">
                 E-mail
@@ -104,7 +104,7 @@ const Login = () => {
                 required={true}
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
               />
               <label className="font-semibold text-sm pb-1 block text-accent-content">
                 Password
@@ -114,7 +114,7 @@ const Login = () => {
                 required={true}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
               />
               <button
                 type="submit"

@@ -96,7 +96,7 @@ const Register = () => {
 
   return (
     <>
-      <SectionTitle title="Register" path="Home | Register" />
+      <SectionTitle title="Register" />
       <div className="flex flex-col justify-center sm:py-12">
         <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
           <div className="bg-dark border border-gray-600 shadow w-full rounded-lg divide-y divide-gray-200">
@@ -105,7 +105,7 @@ const Register = () => {
               <label className="font-semibold text-sm pb-1 block text-accent-content">Username</label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -114,7 +114,7 @@ const Register = () => {
               <label className="font-semibold text-sm pb-1 block text-accent-content">First Name</label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
@@ -123,7 +123,7 @@ const Register = () => {
               <label className="font-semibold text-sm pb-1 block text-accent-content">Last Name</label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
@@ -132,7 +132,7 @@ const Register = () => {
               <label className="font-semibold text-sm pb-1 block text-accent-content">Email</label>
               <input
                 type="email"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -141,7 +141,7 @@ const Register = () => {
               <label className="font-semibold text-sm pb-1 block text-accent-content">Password</label>
               <input
                 type="password"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -150,7 +150,7 @@ const Register = () => {
               <label className="font-semibold text-sm pb-1 block text-accent-content">Confirm Password</label>
               <input
                 type="password"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -159,7 +159,7 @@ const Register = () => {
               <label className="font-semibold text-sm pb-1 block text-accent-content">Birthdate</label>
               <input
                 type="date"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
                 value={birthdate}
                 onChange={(e) => setBirthdate(e.target.value)}
                 required
@@ -167,7 +167,7 @@ const Register = () => {
               {/* Gender */}
               <label className="font-semibold text-sm pb-1 block text-accent-content">Gender</label>
               <select
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
                 required
@@ -181,7 +181,7 @@ const Register = () => {
               <label className="font-semibold text-sm pb-1 block text-accent-content">Municipality</label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="input input-bordered px-3 py-2 mt-1 mb-5 w-full"
                 value={municipality}
                 onChange={(e) => setMunicipality(e.target.value)}
                 required

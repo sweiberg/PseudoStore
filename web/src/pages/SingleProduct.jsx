@@ -154,42 +154,11 @@ const SingleProduct = () => {
               <FaCartShopping className="text-xl mr-1" />
               Add to cart
             </button>
-
-            {product?.isInWishList ? (
-              <button
-                className="btn bg-blue-600 hover:bg-blue-500 text-white"
-                onClick={() => {
-                  if (loginState) {
-                    removeFromWishlistHandler(product);
-                  } else {
-                    toast.error(
-                      "You must be logged in to remove products from the wishlist"
-                    );
-                  }
-                }}
-              >
-                <FaHeart className="text-xl mr-1" />
-                Remove from wishlist
-              </button>
-            ) : (
-              <button
-                className="btn bg-blue-600 hover:bg-blue-500 text-white"
-                onClick={() => {
-                  if (loginState) {
-                    addToWishlistHandler(product);
-                  } else {
-                    toast.error(
-                      "You must be logged in to add products to the wishlist"
-                    );
-                  }
-                }}
-              >
-                <FaHeart className="text-xl mr-1" />
-                Add to wishlist
-              </button>
-            )}
           </div>
           <div className="other-product-info flex flex-col gap-x-2">
+            <Link to={`/shop/category/${productData?.data.Category?.ID}`} className="badge bg-gray-700 badge-lg font-bold hover:bg-blue-500 text-white p-5 mt-2">
+              Category: {product.category}
+            </Link>
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
               Type: {product.article_type}
             </div>
@@ -211,9 +180,6 @@ const SingleProduct = () => {
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
               Season: {product.season}
             </div>
-            <Link to={`/shop/category/${productData?.data.Category?.ID}`} className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
-              Category: {product.category}
-            </Link>
             <div className="badge bg-gray-700 badge-lg font-bold text-white p-5 mt-2">
               Release Year:{" "}
               {product.release_year}

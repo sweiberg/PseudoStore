@@ -120,6 +120,7 @@ function Trend3() {
         backgroundColor: "#FF6961",
         borderColor: '#FF6961',
         color:  '#FF6961',
+        hidden: true,
         data: WithoutPromotion,
       },
     ],

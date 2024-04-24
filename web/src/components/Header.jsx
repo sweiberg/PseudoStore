@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FaHeadphones } from "react-icons/fa6";
-import { FaRegEnvelope } from "react-icons/fa6";
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 import { FaHeart } from "react-icons/fa6";
 import { AiFillShopping } from "react-icons/ai";
@@ -23,41 +21,11 @@ const Header = () => {
   const [userId, setId] = useState(localStorage.getItem("userId"));
   const dispatch = useDispatch();
   const { darkMode } = useSelector((state) => state.auth);
-  const [categories, setCategories] = useState([]);
 
   const loginState = useSelector((state) => state.auth.isLoggedIn);
   const adminState = true;
 
   const { amount, total } = useSelector(state => state.cart);
-
-  const getSubcategories = async () => {
-    try {
-      const response = await axios('http://localhost:4300/api/subcategory/all');
-      console.log(response.data.data);
-      setCategories(response.data.data);
-    } catch (error) {
-      console.error("Failed to fetch subcategories:", error);
-      setCategories([]);
-    }
-  };
-
-  const fetchWishlist = async () => {
-    if(loginState){
-      try {
-        const getResponse = await axios.get();
-        const userObj = getResponse.data;
-  
-        store.dispatch(updateWishlist({userObj}));
-        
-       
-      } catch (error) {
-        console.error(error);
-      }
-    }else{
-      store.dispatch(clearWishlist());
-    }
-
-  };
 
   useEffect(() => {
     if (amount === 0 && total === 0) {
@@ -67,10 +35,8 @@ const Header = () => {
         dispatch(updateCartFromCookie(items)); // Dispatch an action to update the store based on cookie
       }
     }
-    getSubcategories();
     setIsLoggedIn(loginState);
     setIsAdmin(adminState);
-    fetchWishlist();
   }, [dispatch, amount, total, loginState, adminState]);
 
   return (
@@ -111,12 +77,6 @@ const Header = () => {
           >
             {darkMode ? <FaSun /> : <FaMoon />}
           </button>
-          <Link
-            to="/wishlist"
-            className="btn btn-ghost btn-circle text-accent-content"
-          >
-            <FaHeart className="text-xl" />
-          </Link>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <div className="indicator">
@@ -193,7 +153,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="navbar-bottom-menu border-y border-gray-800">
+      <div className="bg-base-200 navbar-bottom-menu border-y border-gray-800">
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
@@ -255,25 +215,25 @@ const Header = () => {
         </div>
 
         <div className="container text-2xl navlinks-container">
-          <NavLink className="text-accent-content" to="/">
+          <NavLink className="link-hover text-accent-content" to="/">
             Home
           </NavLink>
-          <NavLink className="text-accent-content" to="/shop">
+          <NavLink className="link-hover text-accent-content" to="/shop">
             Shop
           </NavLink>
           {!isLoggedIn && (
             <>
-              <NavLink className="text-accent-content" to="/login">
+              <NavLink className="link-hover text-accent-content" to="/login">
                 Login
               </NavLink>
-              <NavLink className="text-accent-content" to="/register">
+              <NavLink className="link-hover text-accent-content" to="/register">
                 Register
               </NavLink>
             </>
           )}
           {isLoggedIn && (
             <>
-              <NavLink className="text-accent-content" to="/dashboard">
+              <NavLink className="link-hover text-accent-content" to="/dashboard">
                 Dashboard
               </NavLink>
             </>

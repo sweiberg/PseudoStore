@@ -19,7 +19,7 @@ function Trend1() {
   const name = "Product Preferences";
   const [graphData, setGraphData] = useState([]);
   const [lowDate, setLowDate] = useState('2017-01');
-  const [highDate, setHighDate] = useState('2018-01');
+  const [highDate, setHighDate] = useState('2022-01');
   const minLowDate = '2015-01'
   const maxHighDate = '2022-12'
 
@@ -105,13 +105,13 @@ function Trend1() {
     },
     third: {
       title: "Low Age",
-      list: [{ id: 25, name: 25 }, { id: 30, name: 30 }],
+      list: [{ id: 15, name: 15 }, { id: 25, name: 25 }, { id: 35, name: 35 }, { id: 45, name: 45 }, { id: 55, name: 55 }, { id: 65, name: 65 }, { id: 75, name: 75 }],
       selected: { id: 25, name: 25 }
     },
     fourth: {
       title: "High Age",
-      list: [{ id: 34, name: 34 }, { id: 40, name: 40 }],
-      selected: { id: 34, name: 34 }
+      list: [{ id: 15, name: 15 }, { id: 25, name: 25 }, { id: 35, name: 35 }, { id: 45, name: 45 }, { id: 55, name: 55 }, { id: 65, name: 65 }, { id: 75, name: 75 }],
+      selected: { id: 35, name: 35 }
     },
     fifth: {
       title: "Gender",
@@ -233,8 +233,12 @@ function Trend1() {
     }
   };
 
+  const Time = graphData ? graphData.map(item => item.OrderMonth) : [];
+  if (Time.length > 0) {
+    Time.pop();
+  }
   const data = {
-    labels: graphData ? graphData.map(item => item.OrderMonth) : [],
+    labels: Time,
     datasets: [
       {
         label: 'Result',
@@ -311,7 +315,7 @@ function Trend1() {
                     </div>
                   </div>
                   <div className="p-4 flex-auto">
-                    <div className="relative h-650-px">
+                    <div className="relative h-650-px overflow-y-scroll">
                         <code className="block whitespace-pre-wrap">
                             SELECT<br />
                             <span className="pl-4 inline-block">TO_CHAR(o.CREATED_AT, 'YYYY-MM') AS OrderMonth,</span><br />

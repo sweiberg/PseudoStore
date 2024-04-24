@@ -114,13 +114,6 @@ const Filters = () => {
         price={2000}
       />
 
-      {/* In stock */}
-      <FormCheckbox
-        label="Only products in stock"
-        name="stock"
-        defaultValue="false"
-      />
-
       {/* BUTTONS */}
 
       <button

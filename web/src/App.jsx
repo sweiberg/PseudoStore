@@ -93,7 +93,12 @@ const router = createBrowserRouter([
         element: <Dashboard />
       },
       {
-        path:"shop/Category/:id",
+        path:"shop/category/:id",
+        element: <Category />,
+        loader: categoryLoader,
+      },
+      {
+        path:"shop/category/:id/p/:page",
         element: <Category />,
         loader: categoryLoader,
       }
