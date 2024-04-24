@@ -28,12 +28,25 @@ func GetCategoryByID(id uint) (Category, error) {
 	return category, nil
 }
 
-func GetCatPaginate(id int, page int, price int, order string, search string, gender string) ([]Product, error) {
+func GetCategoryByName(name string) (uint, error) {
+	var category Category
+
+	err := db.Oracle.Preload("Subcategories").Where("name=?", name).Find(&category).Error
+
+	if err != nil {
+		return 0, err
+	}
+
+	return category.ID, nil
+}
+
+func GetCatPaginate(category string, page int, price int, order string, search string, gender string) ([]Product, error) {
 	var products []Product
 
 	query := db.Oracle.Model(&Product{})
 
-	if id != 0 {
+	if category != "" {
+		id, _ := GetCategoryByName(category)
 		query = query.Where("category_id = ?", id)
 	}
 

@@ -28,19 +28,18 @@ func ViewCategory(context *gin.Context) {
 }
 
 func PagShop(context *gin.Context) {
-	catidStr := context.Query("id")
 	pageStr := context.Query("page")
 	priceStr := context.Query("price")
 
-	catid, _ := strconv.Atoi(catidStr)
 	page, _ := strconv.Atoi(pageStr)
 	price, _ := strconv.Atoi(priceStr)
 
+	cat := context.Query("category")
 	order := context.Query("order")
 	search := context.Query("search")
 	gender := context.Query("gender")
 
-	category, err := model.GetCatPaginate(catid, page, price, order, search, gender)
+	category, err := model.GetCatPaginate(cat, page, price, order, search, gender)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
